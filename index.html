@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rugido Creativo</title>
+  <style>
+    /* ──────────────── FONTS ──────────────── */
+    @font-face {
+      font-family: 'Manrope';
+      src: url('C:/Users/Usuario/Downloads/Manrope-ExtraBold.ttf') format('truetype');
+      font-weight: 800;
+    }
+    @font-face {
+      font-family: 'Manrope';
+      src: url('C:/Users/Usuario/Downloads/Manrope-SemiBold.ttf') format('truetype');
+      font-weight: 600;
+    }
+    @font-face {
+      font-family: 'Manrope';
+      src: url('C:/Users/Usuario/Downloads/Manrope-Regular.ttf') format('truetype');
+      font-weight: 400;
+    }
+    @font-face {
+      font-family: 'Manrope';
+      src: url('C:/Users/Usuario/Downloads/Manrope-ExtraLight.ttf') format('truetype');
+      font-weight: 200;
+    }
+    @font-face {
+      font-family: 'Mynerve';
+      src: url('C:/Users/Usuario/Downloads/Mynerve-Regular.ttf') format('truetype');
+      font-weight: 400;
+    }
+    @font-face {
+      font-family: 'Raleway';
+      src: url('C:/Users/Usuario/Downloads/Raleway-Black.ttf') format('truetype');
+      font-weight: 900;
+    }
+    @font-face {
+      font-family: 'Raleway';
+      src: url('C:/Users/Usuario/Downloads/Raleway-Light.ttf') format('truetype');
+      font-weight: 300;
+    }
+
+    /* ──────────────── RESET & BASE ──────────────── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --black: #000000;
+      --white: #FFFFFF;
+      --red: #FF0000;
+      --gray: #F0F0F0;
+      --pink: #FF008F;
+      --light-pink: #FFB8E9;
+      --nav-h: 72px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Manrope', sans-serif;
+      background: var(--black);
+      color: var(--white);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ──────────────── CUSTOM CURSOR ──────────────── */
+    .cursor {
+      width: 12px; height: 12px;
+      background: var(--red);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s ease, width 0.2s ease, height 0.2s ease, background 0.2s ease;
+      mix-blend-mode: difference;
+    }
+    .cursor-ring {
+      width: 36px; height: 36px;
+      border: 1.5px solid var(--red);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.15s ease, width 0.2s ease, height 0.2s ease, opacity 0.2s ease;
+      mix-blend-mode: difference;
+    }
+
+    /* ──────────────── NAV ──────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      z-index: 1000;
+      transition: background 0.4s ease;
+    }
+    nav.scrolled {
+      background: rgba(0,0,0,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+    .nav-logo svg { width: 38px; height: 38px; }
+    .nav-logo-text {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      letter-spacing: 0.04em;
+      color: var(--white);
+      line-height: 1;
+    }
+    .nav-logo-text span { color: var(--red); }
+
+    .nav-center {
+      display: flex;
+      gap: 40px;
+    }
+    .nav-center a {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 800;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--white);
+      text-decoration: none;
+      position: relative;
+      transition: color 0.2s;
+    }
+    .nav-center a::after {
+      content: '';
+      position: absolute;
+      bottom: -3px; left: 0;
+      width: 0; height: 1.5px;
+      background: var(--red);
+      transition: width 0.3s ease;
+    }
+    .nav-center a:hover { color: var(--red); }
+    .nav-center a:hover::after { width: 100%; }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .nav-right a {
+      color: var(--white);
+      transition: color 0.2s, transform 0.2s;
+      display: flex;
+      align-items: center;
+    }
+    .nav-right a:hover { color: var(--red); transform: scale(1.15); }
+    .nav-right svg { width: 20px; height: 20px; }
+
+    /* ──────────────── HERO ──────────────── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 40px;
+      padding-top: var(--nav-h);
+      background: var(--black);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* decorative lines */
+    #hero::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 1px; height: 100%;
+      background: linear-gradient(to bottom, transparent, rgba(255,0,0,0.4), transparent);
+    }
+
+    .hero-noise {
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      opacity: 0.5;
+    }
+
+    .hero-label {
+      font-family: 'Mynerve', sans-serif;
+      font-size: 0.85rem;
+      color: var(--red);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.2s forwards;
+    }
+
+    .hero-phrase-wrap {
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+    .hero-phrase {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 900;
+      font-size: clamp(4rem, 10vw, 9rem);
+      line-height: 0.92;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      color: var(--white);
+      display: block;
+    }
+    .hero-phrase.red { color: var(--red); }
+
+    /* rotating words */
+    .hero-rotator-wrap {
+      overflow: hidden;
+      display: inline-block;
+    }
+    .hero-rotator {
+      display: flex;
+      flex-direction: column;
+      animation: rotateWords 8s ease-in-out infinite;
+    }
+    .hero-rotator span {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 900;
+      font-size: clamp(4rem, 10vw, 9rem);
+      line-height: 0.92;
+      letter-spacing: -0.02em;
+      color: var(--red);
+      text-transform: uppercase;
+      display: block;
+      height: 1.1em;
+    }
+    @keyframes rotateWords {
+      0%,18%   { transform: translateY(0); }
+      25%,43%  { transform: translateY(-25%); }
+      50%,68%  { transform: translateY(-50%); }
+      75%,93%  { transform: translateY(-75%); }
+      100%     { transform: translateY(0); }
+    }
+
+    .hero-sub {
+      margin-top: 64px;
+      max-width: 560px;
+      font-family: 'Manrope', sans-serif;
+      font-weight: 200;
+      font-size: 1rem;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.65);
+      letter-spacing: 0.01em;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 1s forwards;
+    }
+
+    .hero-cta-row {
+      margin-top: 40px;
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 1.2s forwards;
+    }
+    .btn-primary {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 800;
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--black);
+      background: var(--red);
+      padding: 14px 32px;
+      border: none;
+      cursor: none;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s, color 0.2s, transform 0.2s;
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    }
+    .btn-primary:hover {
+      background: var(--white);
+      transform: translateY(-2px);
+    }
+    .btn-ghost {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 600;
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--white);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.2s;
+    }
+    .btn-ghost svg { transition: transform 0.2s; }
+    .btn-ghost:hover { color: var(--red); }
+    .btn-ghost:hover svg { transform: translateX(4px); }
+
+    .hero-scroll-hint {
+      position: absolute;
+      bottom: 32px;
+      right: 40px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Manrope', sans-serif;
+      font-weight: 200;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      writing-mode: vertical-lr;
+      opacity: 0;
+      animation: fadeIn 1s ease 1.8s forwards;
+    }
+
+    /* ──────────────── TICKER ──────────────── */
+    .ticker-section {
+      background: var(--red);
+      overflow: hidden;
+      padding: 14px 0;
+      border-top: 1px solid rgba(0,0,0,0.1);
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+    .ticker-track {
+      display: flex;
+      white-space: nowrap;
+      animation: ticker 18s linear infinite;
+      gap: 0;
+    }
+    .ticker-item {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 800;
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--black);
+      padding: 0 36px;
+      flex-shrink: 0;
+    }
+    .ticker-sep {
+      color: var(--white);
+      padding: 0 4px;
+    }
+    @keyframes ticker {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ──────────────── SECTION SHARED ──────────────── */
+    section { position: relative; }
+
+    .section-label {
+      font-family: 'Mynerve', sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 24px;
+    }
+
+    /* ──────────────── SOMOS SECTION ──────────────── */
+    #somos {
+      min-height: 100vh;
+      background: var(--black);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+    }
+
+    .somos-left {
+      padding: 120px 40px 120px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-right: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .somos-big-label {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 800;
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 48px;
+    }
+    .somos-big-label em {
+      font-style: normal;
+      color: var(--red);
+    }
+
+    /* animated word cycler */
+    .somos-cycler-wrap {
+      overflow: hidden;
+      height: 1.1em;
+      margin-bottom: 20px;
+    }
+    .somos-cycler {
+      display: flex;
+      flex-direction: column;
+      animation: rotateWords2 16s ease-in-out infinite;
+    }
+    .somos-cycler span {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 900;
+      font-size: clamp(2.2rem, 4vw, 3.8rem);
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      color: var(--red);
+      text-transform: uppercase;
+      display: block;
+    }
+    @keyframes rotateWords2 {
+      0%,8%    { transform: translateY(0); }
+      11%,19%  { transform: translateY(-10%); }
+      22%,30%  { transform: translateY(-20%); }
+      33%,41%  { transform: translateY(-30%); }
+      44%,52%  { transform: translateY(-40%); }
+      55%,63%  { transform: translateY(-50%); }
+      66%,74%  { transform: translateY(-60%); }
+      77%,85%  { transform: translateY(-70%); }
+      88%,96%  { transform: translateY(-80%); }
+      99%,100% { transform: translateY(-90%); }
+    }
+
+    .somos-desc {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 200;
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.55);
+      max-width: 420px;
+      margin-top: 32px;
+    }
+
+    /* right: proceso */
+    .somos-right {
+      padding: 120px 60px 120px 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: var(--gray);
+    }
+
+    .proceso-label {
+      font-family: 'Mynerve', sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 40px;
+    }
+
+    .proceso-title {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.6rem, 2.5vw, 2.4rem);
+      color: var(--black);
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      line-height: 1.1;
+      margin-bottom: 48px;
+    }
+    .proceso-title span { color: var(--red); }
+
+    .proceso-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .proceso-step {
+      display: grid;
+      grid-template-columns: 32px 1fr;
+      gap: 20px;
+      align-items: start;
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+      cursor: none;
+      transition: background 0.2s;
+    }
+    .proceso-step:last-child { border-bottom: none; }
+    .step-num {
+      font-family: 'Mynerve', sans-serif;
+      font-size: 0.78rem;
+      color: var(--red);
+      padding-top: 3px;
+    }
+    .step-content {}
+    .step-name {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 800;
+      font-size: 0.9rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--black);
+      margin-bottom: 4px;
+      transition: color 0.2s;
+    }
+    .proceso-step:hover .step-name { color: var(--red); }
+    .step-desc {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 200;
+      font-size: 0.82rem;
+      line-height: 1.6;
+      color: rgba(0,0,0,0.55);
+    }
+
+    /* ──────────────── SERVICIOS ──────────────── */
+    #servicios {
+      background: var(--white);
+      padding: 120px 40px;
+      color: var(--black);
+    }
+    .servicios-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 80px;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .servicios-title {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 900;
+      font-size: clamp(3rem, 7vw, 6.5rem);
+      line-height: 0.9;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      color: var(--black);
+    }
+    .servicios-title span { color: var(--red); }
+
+    .servicios-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-top: 1.5px solid var(--black);
+    }
+
+    .servicio-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      padding: 28px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.12);
+      cursor: none;
+      transition: all 0.3s;
+      padding-right: 40px;
+    }
+    .servicio-item:nth-child(odd) {
+      border-right: 1px solid rgba(0,0,0,0.12);
+      padding-right: 40px;
+    }
+    .servicio-item:nth-child(even) {
+      padding-left: 40px;
+    }
+    .servicio-item:hover { background: var(--gray); }
+    .servicio-num {
+      font-family: 'Mynerve', sans-serif;
+      font-size: 0.72rem;
+      color: var(--red);
+      padding-top: 4px;
+      min-width: 24px;
+    }
+    .servicio-name {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 800;
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      line-height: 1.5;
+      color: var(--black);
+      transition: color 0.2s;
+    }
+    .servicio-item:hover .servicio-name { color: var(--red); }
+
+    /* ──────────────── MARCAS MARQUEE ──────────────── */
+    #marcas {
+      background: var(--black);
+      padding: 80px 0;
+      overflow: hidden;
+    }
+    .marcas-header {
+      padding: 0 40px;
+      margin-bottom: 48px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+    .marcas-title {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 800;
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+    }
+    .marcas-line {
+      flex: 1;
+      height: 1px;
+      background: rgba(255,255,255,0.1);
+    }
+
+    .marcas-track-wrap {
+      overflow: hidden;
+    }
+    .marcas-track {
+      display: flex;
+      white-space: nowrap;
+      animation: ticker 22s linear infinite;
+      gap: 0;
+    }
+    .marca-item {
+      flex-shrink: 0;
+      padding: 0 48px;
+      font-family: 'Raleway', sans-serif;
+      font-weight: 900;
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.15);
+      transition: color 0.3s;
+      cursor: none;
+    }
+    .marca-item:hover { color: var(--red); }
+
+    /* ──────────────── PROYECTOS ──────────────── */
+    #proyectos {
+      background: var(--gray);
+      padding: 120px 40px;
+      color: var(--black);
+    }
+    .proyectos-header {
+      margin-bottom: 80px;
+    }
+    .proyectos-title {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 900;
+      font-size: clamp(3rem, 7vw, 6.5rem);
+      line-height: 0.9;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      color: var(--black);
+    }
+    .proyectos-title span { color: var(--red); }
+
+    .proyectos-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+
+    .proyecto-card {
+      position: relative;
+      background: var(--black);
+      overflow: hidden;
+      aspect-ratio: 4/5;
+      cursor: none;
+    }
+    .proyecto-card-inner {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 28px;
+      background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%);
+      transition: all 0.4s;
+    }
+    .proyecto-card:hover .proyecto-card-inner {
+      background: linear-gradient(to top, rgba(255,0,0,0.85) 0%, rgba(0,0,0,0.3) 100%);
+    }
+    .proyecto-cat {
+      font-family: 'Mynerve', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 8px;
+      transition: color 0.3s;
+    }
+    .proyecto-card:hover .proyecto-cat { color: var(--white); }
+    .proyecto-name {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--white);
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+    .proyecto-link {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 600;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all 0.3s;
+    }
+    .proyecto-card:hover .proyecto-link {
+      opacity: 1;
+      transform: translateY(0);
+      color: var(--white);
+    }
+
+    /* proyecto card bg colors */
+    .proyecto-card:nth-child(1) { background: #1a1a1a; }
+    .proyecto-card:nth-child(2) { background: #0d0d0d; }
+    .proyecto-card:nth-child(3) { background: #111; }
+    .proyecto-card:nth-child(4) { background: #161616; }
+    .proyecto-card:nth-child(5) { background: #0a0a0a; }
+
+    /* big card for 6th */
+    .proyecto-card.wide {
+      grid-column: span 2;
+      aspect-ratio: 8/5;
+    }
+
+    /* decorative letter in projects */
+    .proyecto-letter {
+      position: absolute;
+      top: 20px; right: 20px;
+      font-family: 'Raleway', sans-serif;
+      font-weight: 900;
+      font-size: 8rem;
+      line-height: 1;
+      color: rgba(255,0,0,0.08);
+      letter-spacing: -0.05em;
+      transition: color 0.3s;
+      user-select: none;
+    }
+    .proyecto-card:hover .proyecto-letter { color: rgba(255,255,255,0.06); }
+
+    /* ──────────────── CONTACTO ──────────────── */
+    #contacto {
+      background: var(--black);
+      padding: 120px 40px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contacto-big {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 900;
+      font-size: clamp(5rem, 14vw, 14rem);
+      line-height: 0.88;
+      letter-spacing: -0.04em;
+      text-transform: uppercase;
+      color: var(--white);
+      user-select: none;
+      transition: color 0.15s;
+      display: inline-block;
+      cursor: none;
+    }
+    .contacto-big:hover { color: var(--red); }
+
+    .contacto-sub {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 200;
+      font-size: 1rem;
+      color: rgba(255,255,255,0.4);
+      margin-top: 20px;
+      letter-spacing: 0.02em;
+      max-width: 400px;
+    }
+
+    .contacto-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      margin-top: 80px;
+      padding-top: 60px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    .contacto-info {}
+    .contacto-info-label {
+      font-family: 'Mynerve', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 20px;
+    }
+    .contacto-info-item {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 28px;
+    }
+    .contacto-info-item strong {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 800;
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 4px;
+    }
+    .contacto-info-item a, .contacto-info-item span {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 600;
+      font-size: 1.05rem;
+      color: var(--white);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .contacto-info-item a:hover { color: var(--red); }
+
+    .contacto-form {}
+    .form-group {
+      margin-bottom: 24px;
+    }
+    .form-group label {
+      display: block;
+      font-family: 'Manrope', sans-serif;
+      font-weight: 800;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 8px;
+    }
+    .form-group input, .form-group textarea {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1.5px solid rgba(255,255,255,0.2);
+      padding: 10px 0;
+      font-family: 'Manrope', sans-serif;
+      font-weight: 400;
+      font-size: 1rem;
+      color: var(--white);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-group textarea { resize: none; height: 80px; }
+    .form-group input::placeholder, .form-group textarea::placeholder {
+      color: rgba(255,255,255,0.25);
+    }
+    .form-group input:focus, .form-group textarea:focus {
+      border-color: var(--red);
+    }
+    .form-submit {
+      margin-top: 32px;
+      font-family: 'Manrope', sans-serif;
+      font-weight: 800;
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--black);
+      background: var(--white);
+      padding: 16px 40px;
+      border: none;
+      cursor: none;
+      transition: background 0.2s, color 0.2s, transform 0.2s;
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    }
+    .form-submit:hover {
+      background: var(--red);
+      color: var(--white);
+      transform: translateY(-2px);
+    }
+
+    /* ──────────────── FOOTER ──────────────── */
+    footer {
+      background: var(--black);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .footer-logo svg { width: 28px; height: 28px; }
+    .footer-name {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 800;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+    }
+    .footer-copy {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 200;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.2);
+    }
+    .footer-socials {
+      display: flex;
+      gap: 16px;
+    }
+    .footer-socials a {
+      color: rgba(255,255,255,0.3);
+      transition: color 0.2s;
+    }
+    .footer-socials a:hover { color: var(--red); }
+
+    /* ──────────────── SCROLL REVEAL ──────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal-left.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal-right.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* ──────────────── KEYFRAMES ──────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    /* ──────────────── RESPONSIVE ──────────────── */
+    @media (max-width: 1000px) {
+      #somos { grid-template-columns: 1fr; }
+      .somos-left { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); padding: 80px 32px; }
+      .somos-right { padding: 80px 32px; }
+      .servicios-grid { grid-template-columns: 1fr; }
+      .servicio-item:nth-child(odd) { border-right: none; padding-right: 0; }
+      .servicio-item:nth-child(even) { padding-left: 0; }
+      .proyectos-grid { grid-template-columns: 1fr 1fr; }
+      .proyecto-card.wide { grid-column: span 2; }
+      .contacto-grid { grid-template-columns: 1fr; gap: 48px; }
+    }
+    @media (max-width: 640px) {
+      nav { padding: 0 20px; }
+      .nav-center { display: none; }
+      #hero { padding: 0 20px; padding-top: var(--nav-h); }
+      .hero-phrase { font-size: clamp(3rem, 12vw, 6rem); }
+      .proyectos-grid { grid-template-columns: 1fr; }
+      .proyecto-card.wide { grid-column: span 1; aspect-ratio: 4/5; }
+      #contacto { padding: 80px 20px 60px; }
+      .contacto-big { font-size: clamp(4rem, 16vw, 8rem); }
+      footer { padding: 28px 20px; }
+    }
+
+    /* ──────────────── STAR SVG HELPER ──────────────── */
+    .star-icon { display: inline-block; }
+  </style>
+</head>
+<body>
+
+  <!-- Custom cursor -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursor-ring"></div>
+
+  <!-- ═══════════════════════ NAV ═══════════════════════ -->
+  <nav id="main-nav">
+    <a href="#hero" class="nav-logo">
+      <!-- Logo: R* SVG -->
+      <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="80" height="80" fill="#FF0000"/>
+        <text x="8" y="66" font-family="serif" font-weight="900" font-size="74" fill="white">R</text>
+        <!-- 8-pointed star -->
+        <g transform="translate(54,54) scale(0.9)">
+          <polygon points="0,-10 2.5,-2.5 10,0 2.5,2.5 0,10 -2.5,2.5 -10,0 -2.5,-2.5" fill="#000"/>
+        </g>
+      </svg>
+      <div class="nav-logo-text">rugido<span>*</span></div>
+    </a>
+
+    <div class="nav-center">
+      <a href="#somos">¿Quiénes c**jo somos?</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#proyectos">Proyectos</a>
+    </div>
+
+    <div class="nav-right">
+      <!-- TikTok -->
+      <a href="https://www.tiktok.com/@somos.rugido" target="_blank" rel="noopener" aria-label="TikTok">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.28 8.28 0 004.84 1.55V6.79a4.85 4.85 0 01-1.07-.1z"/>
+        </svg>
+      </a>
+      <!-- Instagram -->
+      <a href="https://www.instagram.com/somos.rugido/" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/>
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+        </svg>
+      </a>
+      <a href="#contacto" class="btn-primary" style="font-size:0.68rem; padding: 10px 20px;">Contactanos!</a>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════ HERO ═══════════════════════ -->
+  <section id="hero">
+    <div class="hero-noise"></div>
+    <p class="hero-label">✸ Estudio Creativo · Montevideo</p>
+
+    <div class="hero-phrase-wrap">
+      <span class="hero-phrase">Welcome to</span>
+    </div>
+    <div class="hero-phrase-wrap">
+      <div class="hero-rotator-wrap">
+        <div class="hero-rotator">
+          <span>the Jungle.</span>
+          <span>Human to Human.</span>
+          <span>la Estrategia.</span>
+          <span>lo Salvaje.</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="hero-sub">
+      Nos posicionamos como un partner estratégico capaz de traducir el universo creativo de tu marca en campañas sólidas y accionables. Nuestro rol es hacer realidad el potencial de tu marca.
+    </p>
+
+    <div class="hero-cta-row">
+      <a href="#servicios" class="btn-primary">Ver Servicios</a>
+      <a href="#somos" class="btn-ghost">
+        ¿Quiénes somos?
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+
+    <div class="hero-scroll-hint">scroll</div>
+  </section>
+
+  <!-- ═══════════════════════ TICKER ═══════════════════════ -->
+  <div class="ticker-section">
+    <div class="ticker-track">
+      <!-- duplicated for seamless loop -->
+      <span class="ticker-item">Creamos Estrategias <span class="ticker-sep">✸</span></span>
+      <span class="ticker-item">Generamos Comunidad <span class="ticker-sep">✸</span></span>
+      <span class="ticker-item">Producimos Contenido <span class="ticker-sep">✸</span></span>
+      <span class="ticker-item">Human to Human <span class="ticker-sep">✸</span></span>
+      <span class="ticker-item">Chamuyamos con Estrategia <span class="ticker-sep">✸</span></span>
+      <span class="ticker-item">Rugido Creativo <span class="ticker-sep">✸</span></span>
+      <span class="ticker-item">Creamos Estrategias <span class="ticker-sep">✸</span></span>
+      <span class="ticker-item">Generamos Comunidad <span class="ticker-sep">✸</span></span>
+      <span class="ticker-item">Producimos Contenido <span class="ticker-sep">✸</span></span>
+      <span class="ticker-item">Human to Human <span class="ticker-sep">✸</span></span>
+      <span class="ticker-item">Chamuyamos con Estrategia <span class="ticker-sep">✸</span></span>
+      <span class="ticker-item">Rugido Creativo <span class="ticker-sep">✸</span></span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════ SOMOS ═══════════════════════ -->
+  <section id="somos">
+    <!-- left: quiénes somos -->
+    <div class="somos-left">
+      <p class="section-label">✸ Quiénes c**jo somos</p>
+      <h2 class="somos-big-label reveal">Somos<br/><em>todo.</em></h2>
+
+      <div class="somos-cycler-wrap reveal">
+        <div class="somos-cycler">
+          <span>Estudio Creativo</span>
+          <span>Depto. de MKT</span>
+          <span>Equipo</span>
+          <span>Dir. Creativos</span>
+          <span>Proyecto AV</span>
+          <span>Campañas Efectivas</span>
+          <span>Partner Estratégico</span>
+          <span>Gestión de Eventos</span>
+          <span>Soporte Creativo</span>
+          <span>Solución Creativa</span>
+          <!-- repeat for seamless -->
+          <span>Estudio Creativo</span>
+        </div>
+      </div>
+
+      <p class="somos-desc reveal">
+        Entendemos tu marca como un universo vivo. La estudiamos, la hablamos, la producimos y la medimos. Somos el equipo que se mete de lleno en tu proyecto y no para hasta que el resultado hable por sí solo.
+      </p>
+    </div>
+
+    <!-- right: cómo lo hacemos -->
+    <div class="somos-right">
+      <p class="proceso-label">✸ ¿Cómo lo hacemos?</p>
+      <h3 class="proceso-title reveal">El Proceso<br/><span>que funciona.</span></h3>
+
+      <div class="proceso-steps">
+        <div class="proceso-step reveal">
+          <span class="step-num">01</span>
+          <div class="step-content">
+            <p class="step-name">Investigamos</p>
+            <p class="step-desc">Reunión de objetivos. Entendemos tu marca, tu audiencia y tus metas antes de mover un dedo.</p>
+          </div>
+        </div>
+        <div class="proceso-step reveal">
+          <span class="step-num">02</span>
+          <div class="step-content">
+            <p class="step-name">Ejecutamos</p>
+            <p class="step-desc">Creación de contenido, guiones, dirección creativa y lineamientos audiovisuales.</p>
+          </div>
+        </div>
+        <div class="proceso-step reveal">
+          <span class="step-num">03</span>
+          <div class="step-content">
+            <p class="step-name">Planificamos</p>
+            <p class="step-desc">Estrategia estudiada sobre la audiencia y los objetivos marcados a inicio de mes.</p>
+          </div>
+        </div>
+        <div class="proceso-step reveal">
+          <span class="step-num">04</span>
+          <div class="step-content">
+            <p class="step-name">Analizamos</p>
+            <p class="step-desc">Leemos los datos de las redes para ver si la estrategia funcionó. ¿Lo logramos?</p>
+          </div>
+        </div>
+        <div class="proceso-step reveal">
+          <span class="step-num">05</span>
+          <div class="step-content">
+            <p class="step-name">Ajustamos</p>
+            <p class="step-desc">Los datos nos dan lugar a ajustar y encontrar patrones que potencien el mensaje.</p>
+          </div>
+        </div>
+        <div class="proceso-step reveal">
+          <span class="step-num">06</span>
+          <div class="step-content">
+            <p class="step-name">Repetimos</p>
+            <p class="step-desc">Le hablamos a nuestra comunidad. Siempre. Sin parar.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ SERVICIOS ═══════════════════════ -->
+  <section id="servicios">
+    <div class="servicios-header">
+      <h2 class="servicios-title reveal">Qué<br/><span>hacemos.</span></h2>
+      <p style="font-family:'Manrope',sans-serif; font-weight:200; font-size:0.9rem; color:rgba(0,0,0,0.45); max-width:280px; line-height:1.7;" class="reveal">
+        Desde gestión de redes hasta producción audiovisual. De punta a punta.
+      </p>
+    </div>
+
+    <div class="servicios-grid">
+      <div class="servicio-item reveal">
+        <span class="servicio-num">01</span>
+        <span class="servicio-name">Gestión de Instagram 360</span>
+      </div>
+      <div class="servicio-item reveal">
+        <span class="servicio-num">02</span>
+        <span class="servicio-name">Gestión de TikTok</span>
+      </div>
+      <div class="servicio-item reveal">
+        <span class="servicio-num">03</span>
+        <span class="servicio-name">Diseño & Dirección de Campañas</span>
+      </div>
+      <div class="servicio-item reveal">
+        <span class="servicio-num">04</span>
+        <span class="servicio-name">Producción & Dirección Audiovisual</span>
+      </div>
+      <div class="servicio-item reveal">
+        <span class="servicio-num">05</span>
+        <span class="servicio-name">Activaciones & Gestión de Eventos</span>
+      </div>
+      <div class="servicio-item reveal">
+        <span class="servicio-num">06</span>
+        <span class="servicio-name">Cobertura de Eventos</span>
+      </div>
+      <div class="servicio-item reveal">
+        <span class="servicio-num">07</span>
+        <span class="servicio-name">Medición & Estrategia de Resultados</span>
+      </div>
+      <div class="servicio-item reveal">
+        <span class="servicio-num">08</span>
+        <span class="servicio-name">Gestión y Análisis de MKT Digital (Meta ADS)</span>
+      </div>
+      <div class="servicio-item reveal">
+        <span class="servicio-num">09</span>
+        <span class="servicio-name">Soluciones Creativas OFF-Redes (MKT 360)</span>
+      </div>
+      <div class="servicio-item reveal">
+        <span class="servicio-num">10</span>
+        <span class="servicio-name">Diseño de Folletería y/o Papelería</span>
+      </div>
+      <div class="servicio-item reveal" style="grid-column: span 2; border-right: none; padding-right: 0; padding-left: 0;">
+        <span class="servicio-num">11</span>
+        <span class="servicio-name">Desarrollo de Identidad de Marca (diseño y tono)</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ MARCAS ═══════════════════════ -->
+  <section id="marcas">
+    <div class="marcas-header">
+      <p class="marcas-title">Marcas con las que rugimos</p>
+      <div class="marcas-line"></div>
+    </div>
+    <div class="marcas-track-wrap">
+      <div class="marcas-track">
+        <span class="marca-item">VCP</span>
+        <span class="marca-item">✸</span>
+        <span class="marca-item">Stroget</span>
+        <span class="marca-item">✸</span>
+        <span class="marca-item">Patio Euskadi</span>
+        <span class="marca-item">✸</span>
+        <span class="marca-item">Hummus</span>
+        <span class="marca-item">✸</span>
+        <span class="marca-item">VCP</span>
+        <span class="marca-item">✸</span>
+        <span class="marca-item">Stroget</span>
+        <span class="marca-item">✸</span>
+        <span class="marca-item">Patio Euskadi</span>
+        <span class="marca-item">✸</span>
+        <span class="marca-item">Hummus</span>
+        <span class="marca-item">✸</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ PROYECTOS ═══════════════════════ -->
+  <section id="proyectos">
+    <div class="proyectos-header">
+      <p class="section-label" style="color:var(--red);">✸ Casos de Estudio</p>
+      <h2 class="proyectos-title reveal">Lo que<br/><span>hacemos.</span></h2>
+    </div>
+
+    <div class="proyectos-grid">
+
+      <!-- 1 Black Friday VCP -->
+      <div class="proyecto-card reveal">
+        <div class="proyecto-letter">R</div>
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg,#1a0000 0%,#3d0000 100%);"></div>
+        <div class="proyecto-card-inner">
+          <p class="proyecto-cat">Campaña MKT · VCP</p>
+          <p class="proyecto-name">Black Friday<br/>VCP</p>
+          <a href="https://www.instagram.com/p/DRanHbiEkYw/" target="_blank" rel="noopener" class="proyecto-link">
+            Ver en Instagram
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- 2 Evento VCP -->
+      <div class="proyecto-card reveal" style="transition-delay:0.1s">
+        <div class="proyecto-letter">✸</div>
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg,#0a0a1a 0%,#1a1a3d 100%);"></div>
+        <div class="proyecto-card-inner">
+          <p class="proyecto-cat">Evento · VCP</p>
+          <p class="proyecto-name">Producción<br/>& Gestión</p>
+          <a href="https://www.instagram.com/p/DRDdja_kn1-/" target="_blank" rel="noopener" class="proyecto-link">
+            Ver en Instagram
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- 3 SS26 VCP -->
+      <div class="proyecto-card reveal" style="transition-delay:0.2s">
+        <div class="proyecto-letter">V</div>
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg,#0d1a0d 0%,#1a3d1a 100%);"></div>
+        <div class="proyecto-card-inner">
+          <p class="proyecto-cat">Producción SS26 · VCP</p>
+          <p class="proyecto-name">Contenido<br/>Campaña</p>
+          <a href="https://www.instagram.com/p/DSlLRqUFYBh/" target="_blank" rel="noopener" class="proyecto-link">
+            Ver en Instagram
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- 4 Stroget -->
+      <div class="proyecto-card reveal wide" style="transition-delay:0.3s">
+        <div class="proyecto-letter">S</div>
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg,#1a0d00 0%,#3d1a00 50%, #1a0000 100%);"></div>
+        <div class="proyecto-card-inner">
+          <p class="proyecto-cat">Reconocimiento · Stroget</p>
+          <p class="proyecto-name">Campaña SIN Pauta.<br/>1 Año · 1 Sorteo · 1 Oportunidad.</p>
+          <a href="https://www.instagram.com/p/DH66xGPs0LP/" target="_blank" rel="noopener" class="proyecto-link">
+            Ver en Instagram
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- 5 Patio Euskadi -->
+      <div class="proyecto-card reveal" style="transition-delay:0.4s">
+        <div class="proyecto-letter">P</div>
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg,#1a001a 0%,#3d003d 100%);"></div>
+        <div class="proyecto-card-inner">
+          <p class="proyecto-cat">Gestión desde 0 · Patio Euskadi</p>
+          <p class="proyecto-name">26K<br/>Personas</p>
+          <a href="https://www.instagram.com/p/DUojRu6EZMl/" target="_blank" rel="noopener" class="proyecto-link">
+            Ver en Instagram
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ CONTACTO ═══════════════════════ -->
+  <section id="contacto">
+    <!-- big hover text -->
+    <div>
+      <a href="mailto:hola@somosrugido.com" class="contacto-big" id="contacto-big-text">
+        CONTACTATE.
+      </a>
+    </div>
+    <p class="contacto-sub">
+      Chamuyamos sin compromiso. Contanos qué necesita tu marca.
+    </p>
+
+    <div class="contacto-grid">
+      <div class="contacto-info reveal-left">
+        <p class="contacto-info-label">✸ Encontranos acá</p>
+
+        <div class="contacto-info-item">
+          <strong>Email</strong>
+          <a href="mailto:hola@somosrugido.com">hola@somosrugido.com</a>
+        </div>
+        <div class="contacto-info-item">
+          <strong>Instagram</strong>
+          <a href="https://www.instagram.com/somos.rugido/" target="_blank" rel="noopener">@somos.rugido</a>
+        </div>
+        <div class="contacto-info-item">
+          <strong>TikTok</strong>
+          <a href="https://www.tiktok.com/@somos.rugido" target="_blank" rel="noopener">@somos.rugido</a>
+        </div>
+        <div class="contacto-info-item">
+          <strong>Ubicación</strong>
+          <span>Montevideo, Uruguay</span>
+        </div>
+      </div>
+
+      <div class="contacto-form reveal-right">
+        <p class="contacto-info-label">✸ Mandanos un mensaje</p>
+        <form onsubmit="return false;">
+          <div class="form-group">
+            <label>Nombre</label>
+            <input type="text" placeholder="¿Cómo te llamás?">
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" placeholder="tu@email.com">
+          </div>
+          <div class="form-group">
+            <label>Contanos</label>
+            <textarea placeholder="¿Qué necesita tu marca?"></textarea>
+          </div>
+          <button type="submit" class="form-submit">Mandarlo ✸</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+  <footer>
+    <div class="footer-logo">
+      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="40" height="40" fill="#FF0000"/>
+        <text x="4" y="33" font-family="serif" font-weight="900" font-size="37" fill="white">R</text>
+        <g transform="translate(27,27) scale(0.7)">
+          <polygon points="0,-10 2.5,-2.5 10,0 2.5,2.5 0,10 -2.5,2.5 -10,0 -2.5,-2.5" fill="#000"/>
+        </g>
+      </svg>
+      <span class="footer-name">Rugido Creativo</span>
+    </div>
+
+    <p class="footer-copy">© 2025 Rugido Creativo · Montevideo, Uruguay</p>
+
+    <div class="footer-socials">
+      <a href="https://www.instagram.com/somos.rugido/" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/>
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+        </svg>
+      </a>
+      <a href="https://www.tiktok.com/@somos.rugido" target="_blank" rel="noopener" aria-label="TikTok">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.28 8.28 0 004.84 1.55V6.79a4.85 4.85 0 01-1.07-.1z"/>
+        </svg>
+      </a>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════ JS ═══════════════════════ -->
+  <script>
+    // ── Custom Cursor ──
+    const cursor = document.getElementById('cursor');
+    const ring   = document.getElementById('cursor-ring');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cursor.style.left = mx + 'px';
+      cursor.style.top  = my + 'px';
+    });
+
+    // smooth ring follow
+    function animateRing() {
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px';
+      ring.style.top  = ry + 'px';
+      requestAnimationFrame(animateRing);
+    }
+    animateRing();
+
+    document.querySelectorAll('a, button, .servicio-item, .proceso-step').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursor.style.width  = '20px';
+        cursor.style.height = '20px';
+        ring.style.width    = '52px';
+        ring.style.height   = '52px';
+        ring.style.opacity  = '0.5';
+      });
+      el.addEventListener('mouseleave', () => {
+        cursor.style.width  = '12px';
+        cursor.style.height = '12px';
+        ring.style.width    = '36px';
+        ring.style.height   = '36px';
+        ring.style.opacity  = '1';
+      });
+    });
+
+    // ── Nav scroll ──
+    const nav = document.getElementById('main-nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // ── Scroll reveal ──
+    const reveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          // stagger siblings
+          const siblings = [...entry.target.parentElement.querySelectorAll('.reveal, .reveal-left, .reveal-right')];
+          const idx = siblings.indexOf(entry.target);
+          entry.target.style.transitionDelay = (idx * 0.06) + 's';
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    reveals.forEach(el => observer.observe(el));
+
+    // ── Contacto big text color cycle on hover ──
+    const contactoBig = document.getElementById('contacto-big-text');
+    const colors = ['#FF0000', '#FF008F', '#FFFFFF', '#FFB8E9'];
+    let colorIdx = 0;
+    contactoBig.addEventListener('mouseenter', () => {
+      colorIdx = (colorIdx + 1) % colors.length;
+      contactoBig.style.color = colors[colorIdx];
+    });
+
+    // ── Hero phrase stagger entrance ──
+    document.querySelectorAll('.hero-phrase-wrap').forEach((el, i) => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(60px)';
+      el.style.transition = `opacity 0.8s ease ${0.3 + i * 0.15}s, transform 0.8s ease ${0.3 + i * 0.15}s`;
+      setTimeout(() => {
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(0)';
+      }, 50);
+    });
+  </script>
+</body>
+</html>
