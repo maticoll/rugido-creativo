@@ -8,37 +8,37 @@
     /* ──────────────── FONTS ──────────────── */
     @font-face {
       font-family: 'Manrope';
-      src: url('C:/Users/Usuario/Downloads/Manrope-ExtraBold.ttf') format('truetype');
+      src: url('Manrope-ExtraBold.ttf') format('truetype');
       font-weight: 800;
     }
     @font-face {
       font-family: 'Manrope';
-      src: url('C:/Users/Usuario/Downloads/Manrope-SemiBold.ttf') format('truetype');
+      src: url('Manrope-SemiBold.ttf') format('truetype');
       font-weight: 600;
     }
     @font-face {
       font-family: 'Manrope';
-      src: url('C:/Users/Usuario/Downloads/Manrope-Regular.ttf') format('truetype');
+      src: url('Manrope-Regular.ttf') format('truetype');
       font-weight: 400;
     }
     @font-face {
       font-family: 'Manrope';
-      src: url('C:/Users/Usuario/Downloads/Manrope-ExtraLight.ttf') format('truetype');
+      src: url('Manrope-ExtraLight.ttf') format('truetype');
       font-weight: 200;
     }
     @font-face {
       font-family: 'Mynerve';
-      src: url('C:/Users/Usuario/Downloads/Mynerve-Regular.ttf') format('truetype');
+      src: url('Mynerve-Regular.ttf') format('truetype');
       font-weight: 400;
     }
     @font-face {
       font-family: 'Raleway';
-      src: url('C:/Users/Usuario/Downloads/Raleway-Black.ttf') format('truetype');
+      src: url('Raleway-Black.ttf') format('truetype');
       font-weight: 900;
     }
     @font-face {
       font-family: 'Raleway';
-      src: url('C:/Users/Usuario/Downloads/Raleway-Light.ttf') format('truetype');
+      src: url('Raleway-Light.ttf') format('truetype');
       font-weight: 300;
     }
 
@@ -222,16 +222,7 @@
     .hero-phrase.red { color: var(--red); }
 
     /* rotating words */
-    .hero-rotator-wrap {
-      overflow: hidden;
-      display: inline-block;
-    }
-    .hero-rotator {
-      display: flex;
-      flex-direction: column;
-      animation: rotateWords 8s ease-in-out infinite;
-    }
-    .hero-rotator span {
+    .hero-rotator-word {
       font-family: 'Raleway', sans-serif;
       font-weight: 900;
       font-size: clamp(4rem, 10vw, 9rem);
@@ -240,14 +231,18 @@
       color: var(--red);
       text-transform: uppercase;
       display: block;
-      height: 1.1em;
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.35s ease, transform 0.35s ease;
     }
-    @keyframes rotateWords {
-      0%,18%   { transform: translateY(0); }
-      25%,43%  { transform: translateY(-25%); }
-      50%,68%  { transform: translateY(-50%); }
-      75%,93%  { transform: translateY(-75%); }
-      100%     { transform: translateY(0); }
+    .hero-rotator-word.exit {
+      opacity: 0;
+      transform: translateY(-60%);
+    }
+    .hero-rotator-word.enter {
+      opacity: 0;
+      transform: translateY(60%);
+      transition: none;
     }
 
     .hero-sub {
@@ -255,7 +250,7 @@
       max-width: 560px;
       font-family: 'Manrope', sans-serif;
       font-weight: 200;
-      font-size: 1rem;
+      font-size: 1.55rem;
       line-height: 1.7;
       color: rgba(255,255,255,0.65);
       letter-spacing: 0.01em;
@@ -406,15 +401,10 @@
     /* animated word cycler */
     .somos-cycler-wrap {
       overflow: hidden;
-      height: 1.1em;
       margin-bottom: 20px;
+      position: relative;
     }
-    .somos-cycler {
-      display: flex;
-      flex-direction: column;
-      animation: rotateWords2 16s ease-in-out infinite;
-    }
-    .somos-cycler span {
+    .somos-cycler-word {
       font-family: 'Raleway', sans-serif;
       font-weight: 900;
       font-size: clamp(2.2rem, 4vw, 3.8rem);
@@ -423,18 +413,18 @@
       color: var(--red);
       text-transform: uppercase;
       display: block;
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.35s ease, transform 0.35s ease;
     }
-    @keyframes rotateWords2 {
-      0%,8%    { transform: translateY(0); }
-      11%,19%  { transform: translateY(-10%); }
-      22%,30%  { transform: translateY(-20%); }
-      33%,41%  { transform: translateY(-30%); }
-      44%,52%  { transform: translateY(-40%); }
-      55%,63%  { transform: translateY(-50%); }
-      66%,74%  { transform: translateY(-60%); }
-      77%,85%  { transform: translateY(-70%); }
-      88%,96%  { transform: translateY(-80%); }
-      99%,100% { transform: translateY(-90%); }
+    .somos-cycler-word.exit {
+      opacity: 0;
+      transform: translateY(-60%);
+    }
+    .somos-cycler-word.enter {
+      opacity: 0;
+      transform: translateY(60%);
+      transition: none;
     }
 
     .somos-desc {
@@ -963,7 +953,7 @@
       to   { opacity: 1; }
     }
 
-    /* ──────────────── RESPONSIVE ──────────────── */
+    /* ──────────────── RESPONSIVE · TABLET ──────────────── */
     @media (max-width: 1000px) {
       #somos { grid-template-columns: 1fr; }
       .somos-left { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); padding: 80px 32px; }
@@ -975,16 +965,107 @@
       .proyecto-card.wide { grid-column: span 2; }
       .contacto-grid { grid-template-columns: 1fr; gap: 48px; }
     }
+
+    /* ──────────────── RESPONSIVE · MOBILE ──────────────── */
     @media (max-width: 640px) {
-      nav { padding: 0 20px; }
+
+      /* cursor off en touch */
+      .cursor, .cursor-ring { display: none; }
+      body { cursor: auto; }
+      a, button { cursor: pointer; }
+
+      /* nav */
+      nav { padding: 0 20px; height: 60px; }
+      :root { --nav-h: 60px; }
       .nav-center { display: none; }
-      #hero { padding: 0 20px; padding-top: var(--nav-h); }
-      .hero-phrase { font-size: clamp(3rem, 12vw, 6rem); }
-      .proyectos-grid { grid-template-columns: 1fr; }
+      .nav-right a:not(.btn-primary) { display: none; }
+      .nav-right .btn-primary { font-size: 0.65rem; padding: 8px 14px; }
+
+      /* hero */
+      #hero {
+        padding: 0 20px 60px;
+        padding-top: calc(var(--nav-h) + 24px);
+        min-height: auto;
+        justify-content: flex-start;
+      }
+      .hero-label { font-size: 0.72rem; margin-bottom: 20px; }
+      .hero-phrase {
+        font-size: clamp(2.8rem, 13vw, 4.5rem);
+        line-height: 0.95;
+      }
+      .hero-rotator span {
+        font-size: clamp(2.8rem, 13vw, 4.5rem);
+        line-height: 0.95;
+      }
+      .hero-sub {
+        margin-top: 28px;
+        font-size: 1rem;
+        max-width: 100%;
+      }
+      .hero-cta-row {
+        margin-top: 28px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+      .hero-scroll-hint { display: none; }
+
+      /* ticker — más rápido */
+      .ticker-track { animation-duration: 8s; }
+      .ticker-item { font-size: 0.75rem; padding: 0 20px; }
+
+      /* somos */
+      .somos-left { padding: 64px 20px 48px; }
+      .somos-big-label { font-size: clamp(2rem, 10vw, 3rem); margin-bottom: 20px; }
+      .somos-cycler-wrap { margin-bottom: 12px; }
+      .somos-cycler-word { font-size: clamp(1.8rem, 9vw, 2.8rem); }
+      .somos-desc { font-size: 0.9rem; margin-top: 20px; }
+      .somos-right { padding: 48px 20px 64px; }
+      .proceso-title { font-size: 1.4rem; margin-bottom: 28px; }
+      .step-name { font-size: 0.82rem; }
+      .step-desc { font-size: 0.78rem; }
+
+      /* servicios */
+      #servicios { padding: 64px 20px; }
+      .servicios-header { margin-bottom: 40px; }
+      .servicios-title { font-size: clamp(2.5rem, 12vw, 4rem); }
+      .servicio-item { padding: 20px 0; }
+      .servicio-name { font-size: 0.82rem; }
+
+      /* marcas — más rápido */
+      #marcas { padding: 56px 0; }
+      .marcas-header { padding: 0 20px; margin-bottom: 28px; }
+      .marcas-track { animation-duration: 10s; }
+      .marca-item { font-size: clamp(1.4rem, 6vw, 2rem); padding: 0 28px; }
+
+      /* proyectos */
+      #proyectos { padding: 64px 20px; }
+      .proyectos-header { margin-bottom: 40px; }
+      .proyectos-title { font-size: clamp(2.5rem, 12vw, 4rem); }
+      .proyectos-grid { grid-template-columns: 1fr; gap: 2px; }
       .proyecto-card.wide { grid-column: span 1; aspect-ratio: 4/5; }
-      #contacto { padding: 80px 20px 60px; }
-      .contacto-big { font-size: clamp(4rem, 16vw, 8rem); }
-      footer { padding: 28px 20px; }
+      .proyecto-card { aspect-ratio: 4/5; }
+      /* en mobile siempre mostrar el link */
+      .proyecto-link { opacity: 1; transform: translateY(0); color: rgba(255,255,255,0.6); }
+
+      /* contacto */
+      #contacto { padding: 64px 20px 48px; }
+      .contacto-big {
+        font-size: clamp(3rem, 18vw, 5.5rem);
+        line-height: 0.9;
+        word-break: break-word;
+      }
+      .contacto-sub { font-size: 0.9rem; margin-top: 14px; }
+      .contacto-grid { margin-top: 48px; padding-top: 40px; gap: 40px; }
+
+      /* footer */
+      footer {
+        padding: 24px 20px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+      }
+      .footer-copy { order: 3; }
     }
 
     /* ──────────────── STAR SVG HELPER ──────────────── */
@@ -1046,14 +1127,7 @@
       <span class="hero-phrase">Welcome to</span>
     </div>
     <div class="hero-phrase-wrap">
-      <div class="hero-rotator-wrap">
-        <div class="hero-rotator">
-          <span>the Jungle.</span>
-          <span>Human to Human.</span>
-          <span>la Estrategia.</span>
-          <span>lo Salvaje.</span>
-        </div>
-      </div>
+      <span class="hero-rotator-word" id="hero-word">the Jungle.</span>
     </div>
 
     <p class="hero-sub">
@@ -1100,20 +1174,7 @@
       <h2 class="somos-big-label reveal">Somos<br/><em>todo.</em></h2>
 
       <div class="somos-cycler-wrap reveal">
-        <div class="somos-cycler">
-          <span>Estudio Creativo</span>
-          <span>Depto. de MKT</span>
-          <span>Equipo</span>
-          <span>Dir. Creativos</span>
-          <span>Proyecto AV</span>
-          <span>Campañas Efectivas</span>
-          <span>Partner Estratégico</span>
-          <span>Gestión de Eventos</span>
-          <span>Soporte Creativo</span>
-          <span>Solución Creativa</span>
-          <!-- repeat for seamless -->
-          <span>Estudio Creativo</span>
-        </div>
+        <span class="somos-cycler-word" id="somos-word">Estudio Creativo</span>
       </div>
 
       <p class="somos-desc reveal">
@@ -1177,7 +1238,7 @@
   <section id="servicios">
     <div class="servicios-header">
       <h2 class="servicios-title reveal">Qué<br/><span>hacemos.</span></h2>
-      <p style="font-family:'Manrope',sans-serif; font-weight:200; font-size:0.9rem; color:rgba(0,0,0,0.45); max-width:280px; line-height:1.7;" class="reveal">
+      <p style="font-family:'Manrope',sans-serif; font-weight:200; font-size:1.0rem; color:rgba(0,0,0,0.45); max-width:280px; line-height:1.7;" class="reveal">
         Desde gestión de redes hasta producción audiovisual. De punta a punta.
       </p>
     </div>
@@ -1270,7 +1331,7 @@
       <!-- 1 Black Friday VCP -->
       <div class="proyecto-card reveal">
         <div class="proyecto-letter">R</div>
-        <div style="position:absolute;inset:0;background:linear-gradient(135deg,#1a0000 0%,#3d0000 100%);"></div>
+        <div style="position:absolute;inset:0;background:url('img-vcp-guru.jpg') center/cover no-repeat;"></div>
         <div class="proyecto-card-inner">
           <p class="proyecto-cat">Campaña MKT · VCP</p>
           <p class="proyecto-name">Black Friday<br/>VCP</p>
@@ -1284,7 +1345,7 @@
       <!-- 2 Evento VCP -->
       <div class="proyecto-card reveal" style="transition-delay:0.1s">
         <div class="proyecto-letter">✸</div>
-        <div style="position:absolute;inset:0;background:linear-gradient(135deg,#0a0a1a 0%,#1a1a3d 100%);"></div>
+        <div style="position:absolute;inset:0;background:url('img-vcp-evento.jpg') center/cover no-repeat;"></div>
         <div class="proyecto-card-inner">
           <p class="proyecto-cat">Evento · VCP</p>
           <p class="proyecto-name">Producción<br/>& Gestión</p>
@@ -1298,7 +1359,7 @@
       <!-- 3 SS26 VCP -->
       <div class="proyecto-card reveal" style="transition-delay:0.2s">
         <div class="proyecto-letter">V</div>
-        <div style="position:absolute;inset:0;background:linear-gradient(135deg,#0d1a0d 0%,#1a3d1a 100%);"></div>
+        <div style="position:absolute;inset:0;background:url('img-vcp-ss26.jpg') center/cover no-repeat;"></div>
         <div class="proyecto-card-inner">
           <p class="proyecto-cat">Producción SS26 · VCP</p>
           <p class="proyecto-name">Contenido<br/>Campaña</p>
@@ -1312,7 +1373,7 @@
       <!-- 4 Stroget -->
       <div class="proyecto-card reveal wide" style="transition-delay:0.3s">
         <div class="proyecto-letter">S</div>
-        <div style="position:absolute;inset:0;background:linear-gradient(135deg,#1a0d00 0%,#3d1a00 50%, #1a0000 100%);"></div>
+        <div style="position:absolute;inset:0;background:url('img-stroget.jpg') center/cover no-repeat;"></div>
         <div class="proyecto-card-inner">
           <p class="proyecto-cat">Reconocimiento · Stroget</p>
           <p class="proyecto-name">Campaña SIN Pauta.<br/>1 Año · 1 Sorteo · 1 Oportunidad.</p>
@@ -1326,7 +1387,7 @@
       <!-- 5 Patio Euskadi -->
       <div class="proyecto-card reveal" style="transition-delay:0.4s">
         <div class="proyecto-letter">P</div>
-        <div style="position:absolute;inset:0;background:linear-gradient(135deg,#1a001a 0%,#3d003d 100%);"></div>
+        <div style="position:absolute;inset:0;background:url('img-patio.jpg') center/cover no-repeat;"></div>
         <div class="proyecto-card-inner">
           <p class="proyecto-cat">Gestión desde 0 · Patio Euskadi</p>
           <p class="proyecto-name">26K<br/>Personas</p>
@@ -1496,6 +1557,51 @@
       colorIdx = (colorIdx + 1) % colors.length;
       contactoBig.style.color = colors[colorIdx];
     });
+
+    // ── Hero word cycler ──
+    const heroWords = ['the Jungle.', 'Human to Human.', 'la Estrategia.', 'lo Salvaje.'];
+    let heroIdx = 0;
+    const heroEl = document.getElementById('hero-word');
+
+    function cycleHeroWord() {
+      heroEl.classList.add('exit');
+      setTimeout(() => {
+        heroIdx = (heroIdx + 1) % heroWords.length;
+        heroEl.textContent = heroWords[heroIdx];
+        heroEl.classList.remove('exit');
+        heroEl.classList.add('enter');
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          heroEl.classList.remove('enter');
+        }));
+      }, 360);
+    }
+    setInterval(cycleHeroWord, 2200);
+
+    // ── Somos word cycler ──
+    const somosWords = [
+      'Estudio Creativo', 'Depto. de MKT', 'Equipo',
+      'Dir. Creativos', 'Prod. Audiovisual', 'Campañas Efectivas',
+      'Partner Estratégico', 'Gestión de Eventos', 'Soporte Creativo', 'Solución Creativa'
+    ];
+    let somosIdx = 0;
+    const somosEl = document.getElementById('somos-word');
+
+    function cycleWord() {
+      // exit current
+      somosEl.classList.add('exit');
+      setTimeout(() => {
+        somosIdx = (somosIdx + 1) % somosWords.length;
+        somosEl.textContent = somosWords[somosIdx];
+        somosEl.classList.remove('exit');
+        somosEl.classList.add('enter');
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            somosEl.classList.remove('enter');
+          });
+        });
+      }, 360);
+    }
+    setInterval(cycleWord, 2000);
 
     // ── Hero phrase stagger entrance ──
     document.querySelectorAll('.hero-phrase-wrap').forEach((el, i) => {
