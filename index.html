@@ -763,8 +763,14 @@
       transition: color 0.15s;
       display: inline-block;
       cursor: none;
+      animation: contacto-pulse 2s ease-in-out infinite;
     }
-    .contacto-big:hover { color: var(--red); }
+    .contacto-big:hover { color: var(--red); animation-play-state: paused; }
+
+    @keyframes contacto-pulse {
+      0%, 100% { color: #ffffff; }
+      50%       { color: var(--red); }
+    }
 
     .contacto-sub {
       font-family: 'Manrope', sans-serif;
