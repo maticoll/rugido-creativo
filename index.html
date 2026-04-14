@@ -225,7 +225,7 @@
     .hero-rotator-word {
       font-family: 'Raleway', sans-serif;
       font-weight: 900;
-      font-size: clamp(4rem, 10vw, 9rem);
+      font-size: clamp(4rem, 13vw, 11rem);
       line-height: 0.92;
       letter-spacing: -0.02em;
       color: var(--red);
@@ -279,8 +279,8 @@
       cursor: none;
       text-decoration: none;
       display: inline-block;
+      border-radius: 6px;
       transition: background 0.2s, color 0.2s, transform 0.2s;
-      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
     }
     .btn-primary:hover {
       background: var(--white);
@@ -332,7 +332,7 @@
     .ticker-track {
       display: flex;
       white-space: nowrap;
-      animation: ticker 18s linear infinite;
+      /* animation manejada por JS */
       gap: 0;
     }
     .ticker-item {
@@ -580,12 +580,12 @@
     /* ──────────────── MARCAS MARQUEE ──────────────── */
     #marcas {
       background: var(--black);
-      padding: 80px 0;
+      padding: 48px 0;
       overflow: hidden;
     }
     .marcas-header {
       padding: 0 40px;
-      margin-bottom: 48px;
+      margin-bottom: 28px;
       display: flex;
       align-items: center;
       gap: 24px;
@@ -610,7 +610,7 @@
     .marcas-track {
       display: flex;
       white-space: nowrap;
-      animation: ticker 22s linear infinite;
+      /* animation manejada por JS */
       gap: 0;
     }
     .marca-item {
@@ -993,9 +993,12 @@
         font-size: clamp(2.8rem, 13vw, 4.5rem);
         line-height: 0.95;
       }
-      .hero-rotator span {
+      .hero-rotator-word {
         font-size: clamp(2.8rem, 13vw, 4.5rem);
-        line-height: 0.95;
+        line-height: 1;
+      }
+      .hero-phrase-wrap:has(.hero-rotator-word) {
+        min-height: 4.5rem;
       }
       .hero-sub {
         margin-top: 28px;
@@ -1011,13 +1014,13 @@
       .hero-scroll-hint { display: none; }
 
       /* ticker — más rápido */
-      .ticker-track { animation-duration: 8s; }
+      .ticker-track { animation-duration: 4s; }
       .ticker-item { font-size: 0.75rem; padding: 0 20px; }
 
       /* somos */
       .somos-left { padding: 64px 20px 48px; }
       .somos-big-label { font-size: clamp(2rem, 10vw, 3rem); margin-bottom: 20px; }
-      .somos-cycler-wrap { margin-bottom: 12px; }
+      .somos-cycler-wrap { margin-bottom: 12px; min-height: 7rem; }
       .somos-cycler-word { font-size: clamp(1.8rem, 9vw, 2.8rem); }
       .somos-desc { font-size: 0.9rem; margin-top: 20px; }
       .somos-right { padding: 48px 20px 64px; }
@@ -1029,13 +1032,18 @@
       #servicios { padding: 64px 20px; }
       .servicios-header { margin-bottom: 40px; }
       .servicios-title { font-size: clamp(2.5rem, 12vw, 4rem); }
-      .servicio-item { padding: 20px 0; }
-      .servicio-name { font-size: 0.82rem; }
+      .servicios-grid { grid-template-columns: 1fr 1fr; }
+      .servicio-item { padding: 16px 8px; justify-content: flex-start; align-items: flex-start; flex-direction: column; gap: 6px; }
+      .servicio-item:nth-child(odd) { border-right: 1px solid rgba(0,0,0,0.12); padding-right: 8px; }
+      .servicio-item:nth-child(even) { padding-left: 8px; }
+      .servicio-item[style*="grid-column"] { grid-column: span 2 !important; flex-direction: row; align-items: center; gap: 12px; padding-left: 0; padding-right: 0; }
+      .servicio-num { min-width: auto; font-size: 0.68rem; }
+      .servicio-name { font-size: 0.75rem; text-align: left; line-height: 1.4; }
 
       /* marcas — más rápido */
       #marcas { padding: 56px 0; }
       .marcas-header { padding: 0 20px; margin-bottom: 28px; }
-      .marcas-track { animation-duration: 10s; }
+      .marcas-track { animation-duration: 3s; }
       .marca-item { font-size: clamp(1.4rem, 6vw, 2rem); padding: 0 28px; }
 
       /* proyectos */
@@ -1051,9 +1059,9 @@
       /* contacto */
       #contacto { padding: 64px 20px 48px; }
       .contacto-big {
-        font-size: clamp(3rem, 18vw, 5.5rem);
+        font-size: clamp(1.6rem, 7vw, 3rem);
         line-height: 0.9;
-        word-break: break-word;
+        word-break: break-all;
       }
       .contacto-sub { font-size: 0.9rem; margin-top: 14px; }
       .contacto-grid { margin-top: 48px; padding-top: 40px; gap: 40px; }
@@ -1066,6 +1074,20 @@
         gap: 14px;
       }
       .footer-copy { order: 3; }
+    }
+
+    /* ──────────────── HERO LETTER IMAGE ──────────────── */
+    .hero-letter-wrap {
+      display: inline-block;
+      line-height: 0;
+      vertical-align: middle;
+    }
+    .hero-letter-img {
+      height: 0.9em;
+      width: auto;
+      display: inline-block;
+      object-fit: contain;
+      margin: 0 0.03em;
     }
 
     /* ──────────────── STAR SVG HELPER ──────────────── */
@@ -1081,16 +1103,8 @@
   <!-- ═══════════════════════ NAV ═══════════════════════ -->
   <nav id="main-nav">
     <a href="#hero" class="nav-logo">
-      <!-- Logo: R* SVG -->
-      <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="80" height="80" fill="#FF0000"/>
-        <text x="8" y="66" font-family="serif" font-weight="900" font-size="74" fill="white">R</text>
-        <!-- 8-pointed star -->
-        <g transform="translate(54,54) scale(0.9)">
-          <polygon points="0,-10 2.5,-2.5 10,0 2.5,2.5 0,10 -2.5,2.5 -10,0 -2.5,-2.5" fill="#000"/>
-        </g>
-      </svg>
-      <div class="nav-logo-text">rugido<span>*</span></div>
+      <img src="Logo%20rugido.png" alt="Rugido" style="height:38px;width:auto;object-fit:contain;" />
+      <div class="nav-logo-text">somos rugido<span>*</span></div>
     </a>
 
     <div class="nav-center">
@@ -1150,7 +1164,18 @@
   <!-- ═══════════════════════ TICKER ═══════════════════════ -->
   <div class="ticker-section">
     <div class="ticker-track">
-      <!-- duplicated for seamless loop -->
+      <span class="ticker-item">Creamos Estrategias <span class="ticker-sep">✸</span></span>
+      <span class="ticker-item">Generamos Comunidad <span class="ticker-sep">✸</span></span>
+      <span class="ticker-item">Producimos Contenido <span class="ticker-sep">✸</span></span>
+      <span class="ticker-item">Human to Human <span class="ticker-sep">✸</span></span>
+      <span class="ticker-item">Chamuyamos con Estrategia <span class="ticker-sep">✸</span></span>
+      <span class="ticker-item">Rugido Creativo <span class="ticker-sep">✸</span></span>
+      <span class="ticker-item">Creamos Estrategias <span class="ticker-sep">✸</span></span>
+      <span class="ticker-item">Generamos Comunidad <span class="ticker-sep">✸</span></span>
+      <span class="ticker-item">Producimos Contenido <span class="ticker-sep">✸</span></span>
+      <span class="ticker-item">Human to Human <span class="ticker-sep">✸</span></span>
+      <span class="ticker-item">Chamuyamos con Estrategia <span class="ticker-sep">✸</span></span>
+      <span class="ticker-item">Rugido Creativo <span class="ticker-sep">✸</span></span>
       <span class="ticker-item">Creamos Estrategias <span class="ticker-sep">✸</span></span>
       <span class="ticker-item">Generamos Comunidad <span class="ticker-sep">✸</span></span>
       <span class="ticker-item">Producimos Contenido <span class="ticker-sep">✸</span></span>
@@ -1299,6 +1324,22 @@
     </div>
     <div class="marcas-track-wrap">
       <div class="marcas-track">
+        <span class="marca-item">VCP</span>
+        <span class="marca-item">✸</span>
+        <span class="marca-item">Stroget</span>
+        <span class="marca-item">✸</span>
+        <span class="marca-item">Patio Euskadi</span>
+        <span class="marca-item">✸</span>
+        <span class="marca-item">Hummus</span>
+        <span class="marca-item">✸</span>
+        <span class="marca-item">VCP</span>
+        <span class="marca-item">✸</span>
+        <span class="marca-item">Stroget</span>
+        <span class="marca-item">✸</span>
+        <span class="marca-item">Patio Euskadi</span>
+        <span class="marca-item">✸</span>
+        <span class="marca-item">Hummus</span>
+        <span class="marca-item">✸</span>
         <span class="marca-item">VCP</span>
         <span class="marca-item">✸</span>
         <span class="marca-item">Stroget</span>
@@ -1559,7 +1600,7 @@
     });
 
     // ── Hero word cycler ──
-    const heroWords = ['the Jungle.', 'Human to Human.', 'la Estrategia.', 'lo Salvaje.'];
+    const heroWords = ['the Jungle.', 'lo Salvaje.'];
     let heroIdx = 0;
     const heroEl = document.getElementById('hero-word');
 
@@ -1602,6 +1643,48 @@
       }, 360);
     }
     setInterval(cycleWord, 2000);
+
+    // ── Ticker carrusel infinito ──
+    (function() {
+      const track = document.querySelector('.ticker-track');
+      if (!track) return;
+      const isMobile = () => window.innerWidth <= 640;
+      let x = 0;
+      let last = null;
+      function frame(ts) {
+        if (!last) last = ts;
+        const delta = ts - last;
+        last = ts;
+        const speed = isMobile() ? 100 : 60; // px/seg
+        x -= speed * delta / 1000;
+        const copyWidth = track.scrollWidth / 4; // 4 copias
+        if (x <= -copyWidth) x += copyWidth;
+        track.style.transform = `translateX(${x}px)`;
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    })();
+
+    // ── Marcas carrusel infinito ──
+    (function() {
+      const track = document.querySelector('.marcas-track');
+      if (!track) return;
+      const isMobile = () => window.innerWidth <= 640;
+      let x = 0;
+      let last = null;
+      function frame(ts) {
+        if (!last) last = ts;
+        const delta = ts - last;
+        last = ts;
+        const speed = isMobile() ? 120 : 80; // px/seg
+        x -= speed * delta / 1000;
+        const copyWidth = track.scrollWidth / 4; // 4 copias
+        if (x <= -copyWidth) x += copyWidth;
+        track.style.transform = `translateX(${x}px)`;
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    })();
 
     // ── Hero phrase stagger entrance ──
     document.querySelectorAll('.hero-phrase-wrap').forEach((el, i) => {
