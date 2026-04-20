@@ -1806,7 +1806,7 @@
         if (!last) last = ts;
         const delta = ts - last;
         last = ts;
-        const speed = isMobile() ? 120 : 80; // px/seg
+        const speed = isMobile() ? 220 : 160; // px/seg
         x -= speed * delta / 1000;
         const copyWidth = track.scrollWidth / 4; // 4 copias
         if (x <= -copyWidth) x += copyWidth;
