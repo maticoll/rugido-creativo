@@ -1,0 +1,6 @@
+contacto.local.php
+.env
+*.log
+.DS_Store
+Thumbs.db
+contacto.php

@@ -1621,22 +1621,65 @@
       </div>
 
       <div class="contacto-form reveal-right">
+        <p class="contacto-info-label">✸ Mandanos un mensaje</p>
+        <form id="contacto-form" method="POST" action="contacto.php" novalidate>
         <p class="contacto-info-label">✸ Animate a escribirnos</p>
         <form onsubmit="return false;">
           <div class="form-group">
-            <label>Nombre</label>
-            <input type="text" placeholder="¿Cómo te llamás?">
+            <label for="cf-nombre">Nombre</label>
+            <input id="cf-nombre" name="nombre" type="text" placeholder="¿Cómo te llamás?" required maxlength="80">
           </div>
           <div class="form-group">
-            <label>Email</label>
-            <input type="email" placeholder="tu@email.com">
+            <label for="cf-email">Email</label>
+            <input id="cf-email" name="email" type="email" placeholder="tu@email.com" required maxlength="120">
           </div>
           <div class="form-group">
-            <label>Contanos</label>
-            <textarea placeholder="¿Qué necesita tu marca?"></textarea>
+            <label for="cf-mensaje">Contanos</label>
+            <textarea id="cf-mensaje" name="mensaje" placeholder="¿Qué necesita tu marca?" required maxlength="3000"></textarea>
+          </div>
+          <div style="position:absolute; left:-10000px; top:auto; width:1px; height:1px; overflow:hidden;" aria-hidden="true">
+            <label>No completar este campo</label>
+            <input type="text" name="website" tabindex="-1" autocomplete="off">
           </div>
           <button type="submit" class="form-submit">Animate ✸</button>
         </form>
+        <script>
+          (function(){
+            const form = document.getElementById('contacto-form');
+            const status = document.getElementById('cf-status');
+            form.addEventListener('submit', async (e) => {
+              e.preventDefault();
+              const btn = form.querySelector('.form-submit');
+              btn.disabled = true;
+              const originalText = btn.textContent;
+              btn.textContent = 'Enviando…';
+              status.style.display = 'none';
+              try {
+                const res = await fetch(form.action, {
+                  method: 'POST',
+                  body: new FormData(form),
+                  headers: { 'Accept': 'application/json' }
+                });
+                const data = await res.json().catch(() => ({}));
+                if (res.ok && data.ok) {
+                  status.textContent = '¡Gracias! Tu mensaje fue enviado.';
+                  status.style.color = '#0a0';
+                  form.reset();
+                } else {
+                  status.textContent = data.error || 'No se pudo enviar. Probá de nuevo en un rato.';
+                  status.style.color = '#c00';
+                }
+              } catch (err) {
+                status.textContent = 'Error de conexión. Probá de nuevo.';
+                status.style.color = '#c00';
+              } finally {
+                status.style.display = 'block';
+                btn.disabled = false;
+                btn.textContent = originalText;
+              }
+            });
+          })();
+        </script>
       </div>
     </div>
   </section>
