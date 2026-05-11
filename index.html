@@ -223,6 +223,8 @@
     .hero-phrase.red { color: var(--red); }
 
     /* rotating words */
+    .hw { color: var(--white); }
+    .hw.red { color: var(--red); }
     .hero-rotator-word {
       font-family: 'Raleway', sans-serif;
       font-weight: 900;
@@ -1147,10 +1149,7 @@
     <p class="hero-label">✸ Estudio Creativo · Montevideo</p>
 
     <div class="hero-phrase-wrap">
-      <span class="hero-phrase">Welcome to</span>
-    </div>
-    <div class="hero-phrase-wrap">
-      <span class="hero-rotator-word" id="hero-word">the Jungle.</span>
+      <span class="hero-rotator-word" id="hero-word"><span class="hw">Welcome to </span><span class="hw red">the Jungle.</span></span>
     </div>
 
     <p class="hero-sub">
@@ -1737,16 +1736,21 @@
       contactoBig.style.color = colors[colorIdx];
     });
 
-    // ── Hero word cycler ──
-    const heroWords = ['the Jungle.', 'lo Salvaje.'];
+    // ── Hero phrase cycler ──
+    const heroPhrases = [
+      '<span class="hw">Welcome to </span><span class="hw red">the Jungle.</span>',
+      '<span class="hw red">Human </span><span class="hw">to </span><span class="hw red">Human.</span>',
+      '<span class="hw red">Chamuyamos con </span><span class="hw">estrategia.</span>',
+      '<span class="hw red">Salvajes </span><span class="hw">como </span><span class="hw red">humanos.</span>',
+    ];
     let heroIdx = 0;
     const heroEl = document.getElementById('hero-word');
 
     function cycleHeroWord() {
       heroEl.classList.add('exit');
       setTimeout(() => {
-        heroIdx = (heroIdx + 1) % heroWords.length;
-        heroEl.textContent = heroWords[heroIdx];
+        heroIdx = (heroIdx + 1) % heroPhrases.length;
+        heroEl.innerHTML = heroPhrases[heroIdx];
         heroEl.classList.remove('exit');
         heroEl.classList.add('enter');
         requestAnimationFrame(() => requestAnimationFrame(() => {
