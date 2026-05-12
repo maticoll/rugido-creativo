@@ -249,7 +249,7 @@
     }
 
     .hero-sub {
-      margin-top: 64px;
+      margin-top: 0;
       max-width: 560px;
       font-family: 'Manrope', sans-serif;
       font-weight: 200;
@@ -1012,7 +1012,7 @@
         min-height: 4.5rem;
       }
       .hero-sub {
-        margin-top: 28px;
+        margin-top: 0;
         font-size: 1rem;
         max-width: 100%;
       }
@@ -1745,6 +1745,19 @@
     ];
     let heroIdx = 0;
     const heroEl = document.getElementById('hero-word');
+    const heroWrap = heroEl.closest('.hero-phrase-wrap');
+
+    // Fija la altura del contenedor usando "Welcome to the Jungle"
+    // como referencia — el layout nunca cambia al rotar
+    function lockWrapHeight() {
+      heroWrap.style.height = '';
+      heroEl.style.visibility = 'hidden';
+      heroEl.innerHTML = heroPhrases[0]; // Welcome to the Jungle
+      const refH = heroEl.offsetHeight;
+      heroWrap.style.height = refH + 'px';
+      heroEl.innerHTML = heroPhrases[heroIdx];
+      heroEl.style.visibility = '';
+    }
 
     function cycleHeroWord() {
       heroEl.classList.add('exit');
@@ -1759,6 +1772,8 @@
       }, 360);
     }
 
+    lockWrapHeight();
+    window.addEventListener('resize', lockWrapHeight);
     setInterval(cycleHeroWord, 2200);
 
     // ── Somos word cycler ──
