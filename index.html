@@ -249,7 +249,7 @@
     }
 
     .hero-sub {
-      margin-top: 0;
+      margin-top: 32px;
       max-width: 560px;
       font-family: 'Manrope', sans-serif;
       font-weight: 200;
@@ -1012,7 +1012,7 @@
         min-height: 4.5rem;
       }
       .hero-sub {
-        margin-top: 0;
+        margin-top: 16px;
         font-size: 1rem;
         max-width: 100%;
       }
@@ -1752,7 +1752,7 @@
     function lockWrapHeight() {
       heroWrap.style.height = '';
       heroEl.style.visibility = 'hidden';
-      heroEl.innerHTML = heroPhrases[0]; // Welcome to the Jungle
+      heroEl.innerHTML = heroPhrases[2]; // Chamuyamos con estrategia
       const refH = heroEl.offsetHeight;
       heroWrap.style.height = refH + 'px';
       heroEl.innerHTML = heroPhrases[heroIdx];
