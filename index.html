@@ -228,15 +228,13 @@
     .hero-rotator-word {
       font-family: 'Raleway', sans-serif;
       font-weight: 900;
-      font-size: clamp(3rem, 9.75vw, 8.25rem);
+      font-size: clamp(4rem, 13vw, 11rem);
       line-height: 0.92;
       letter-spacing: -0.02em;
       color: var(--red);
       text-transform: uppercase;
       display: block;
-      max-width: 100%;
-      word-break: break-word;
-      overflow-wrap: break-word;
+      white-space: nowrap;
       opacity: 1;
       transform: translateY(0);
       transition: opacity 0.35s ease, transform 0.35s ease;
@@ -1748,6 +1746,17 @@
     ];
     let heroIdx = 0;
     const heroEl = document.getElementById('hero-word');
+    const heroWrap = heroEl.closest('.hero-phrase-wrap');
+
+    function fitHeroText() {
+      heroEl.style.fontSize = ''; // vuelve al valor CSS
+      const maxW = heroWrap.clientWidth;
+      let fs = parseFloat(getComputedStyle(heroEl).fontSize);
+      while (heroEl.scrollWidth > maxW && fs > 16) {
+        fs -= 1;
+        heroEl.style.fontSize = fs + 'px';
+      }
+    }
 
     function cycleHeroWord() {
       heroEl.classList.add('exit');
@@ -1756,11 +1765,15 @@
         heroEl.innerHTML = heroPhrases[heroIdx];
         heroEl.classList.remove('exit');
         heroEl.classList.add('enter');
+        fitHeroText();
         requestAnimationFrame(() => requestAnimationFrame(() => {
           heroEl.classList.remove('enter');
         }));
       }, 360);
     }
+
+    fitHeroText();
+    window.addEventListener('resize', fitHeroText);
     setInterval(cycleHeroWord, 2200);
 
     // ── Somos word cycler ──
