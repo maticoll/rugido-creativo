@@ -234,7 +234,6 @@
       color: var(--red);
       text-transform: uppercase;
       display: block;
-      white-space: nowrap;
       opacity: 1;
       transform: translateY(0);
       transition: opacity 0.35s ease, transform 0.35s ease;
@@ -1739,24 +1738,13 @@
 
     // ── Hero phrase cycler ──
     const heroPhrases = [
-      '<span class="hw">Welcome to </span><span class="hw red">the Jungle.</span>',
-      '<span class="hw red">Human </span><span class="hw">to </span><span class="hw red">Human.</span>',
-      '<span class="hw red">Chamuyamos con </span><span class="hw">estrategia.</span>',
-      '<span class="hw red">Salvajes </span><span class="hw">como </span><span class="hw red">humanos.</span>',
+      '<span class="hw">Welcome to</span><br><span class="hw red">the Jungle.</span>',
+      '<span class="hw red">Human</span><br><span class="hw">to</span><br><span class="hw red">Human.</span>',
+      '<span class="hw red">Chamuyamos con</span><br><span class="hw">estrategia.</span>',
+      '<span class="hw red">Salvajes </span><span class="hw">como</span><br><span class="hw red">humanos.</span>',
     ];
     let heroIdx = 0;
     const heroEl = document.getElementById('hero-word');
-    const heroWrap = heroEl.closest('.hero-phrase-wrap');
-
-    function fitHeroText() {
-      heroEl.style.fontSize = ''; // vuelve al valor CSS
-      const maxW = heroWrap.clientWidth;
-      let fs = parseFloat(getComputedStyle(heroEl).fontSize);
-      while (heroEl.scrollWidth > maxW && fs > 16) {
-        fs -= 1;
-        heroEl.style.fontSize = fs + 'px';
-      }
-    }
 
     function cycleHeroWord() {
       heroEl.classList.add('exit');
@@ -1765,15 +1753,12 @@
         heroEl.innerHTML = heroPhrases[heroIdx];
         heroEl.classList.remove('exit');
         heroEl.classList.add('enter');
-        fitHeroText();
         requestAnimationFrame(() => requestAnimationFrame(() => {
           heroEl.classList.remove('enter');
         }));
       }, 360);
     }
 
-    fitHeroText();
-    window.addEventListener('resize', fitHeroText);
     setInterval(cycleHeroWord, 2200);
 
     // ── Somos word cycler ──
