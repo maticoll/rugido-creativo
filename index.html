@@ -56,7 +56,7 @@
       --nav-h: 72px;
     }
 
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
 
     body {
       font-family: 'Manrope', sans-serif;
@@ -201,7 +201,7 @@
       color: var(--red);
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      margin-bottom: 32px;
+      margin-bottom: 0;
       opacity: 0;
       animation: fadeUp 0.8s ease 0.2s forwards;
     }
@@ -228,12 +228,15 @@
     .hero-rotator-word {
       font-family: 'Raleway', sans-serif;
       font-weight: 900;
-      font-size: clamp(4rem, 13vw, 11rem);
+      font-size: clamp(2.2rem, 9.5vw, 11rem);
       line-height: 0.92;
       letter-spacing: -0.02em;
       color: var(--red);
       text-transform: uppercase;
       display: block;
+      max-width: 100%;
+      word-break: break-word;
+      overflow-wrap: break-word;
       opacity: 1;
       transform: translateY(0);
       transition: opacity 0.35s ease, transform 0.35s ease;
@@ -249,7 +252,7 @@
     }
 
     .hero-sub {
-      margin-top: 64px;
+      margin-top: 0;
       max-width: 560px;
       font-family: 'Manrope', sans-serif;
       font-weight: 200;
@@ -1012,7 +1015,7 @@
         min-height: 4.5rem;
       }
       .hero-sub {
-        margin-top: 28px;
+        margin-top: 0;
         font-size: 1rem;
         max-width: 100%;
       }
