@@ -1747,14 +1747,17 @@
     const heroEl = document.getElementById('hero-word');
     const heroWrap = heroEl.closest('.hero-phrase-wrap');
 
-    // Fija la altura del contenedor usando "Welcome to the Jungle"
-    // como referencia — el layout nunca cambia al rotar
+    // Fija la altura del contenedor midiendo todas las frases
+    // y usando la más alta como referencia
     function lockWrapHeight() {
       heroWrap.style.height = '';
       heroEl.style.visibility = 'hidden';
-      heroEl.innerHTML = heroPhrases[2]; // Chamuyamos con estrategia
-      const refH = heroEl.offsetHeight;
-      heroWrap.style.height = refH + 'px';
+      let maxH = 0;
+      heroPhrases.forEach(phrase => {
+        heroEl.innerHTML = phrase;
+        maxH = Math.max(maxH, heroEl.offsetHeight);
+      });
+      heroWrap.style.height = maxH + 'px';
       heroEl.innerHTML = heroPhrases[heroIdx];
       heroEl.style.visibility = '';
     }
