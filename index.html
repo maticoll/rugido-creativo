@@ -1032,7 +1032,7 @@
       /* somos */
       .somos-left { padding: 64px 20px 48px; }
       .somos-big-label { font-size: clamp(2rem, 10vw, 3rem); margin-bottom: 20px; }
-      .somos-cycler-wrap { margin-bottom: 12px; min-height: 3.5rem; }
+      .somos-cycler-wrap { margin-bottom: 12px; }
       .somos-cycler-word { font-size: clamp(1.8rem, 9vw, 2.8rem); }
       .somos-desc { font-size: 0.9rem; margin-top: 20px; }
       .somos-right { padding: 48px 20px 64px; }
@@ -1789,6 +1789,24 @@
     ];
     let somosIdx = 0;
     const somosEl = document.getElementById('somos-word');
+    const somosWrap = somosEl.closest('.somos-cycler-wrap');
+
+    function lockSomosHeight() {
+      somosWrap.style.height = '';
+      somosEl.style.visibility = 'hidden';
+      let maxH = 0;
+      somosWords.forEach(word => {
+        somosEl.textContent = word;
+        maxH = Math.max(maxH, somosEl.offsetHeight);
+      });
+      somosWrap.style.height = (maxH + 4) + 'px';
+      somosEl.textContent = somosWords[somosIdx];
+      somosEl.style.visibility = '';
+    }
+
+    lockSomosHeight();
+    document.fonts.ready.then(lockSomosHeight);
+    window.addEventListener('resize', lockSomosHeight);
 
     function cycleWord() {
       // exit current
