@@ -1757,7 +1757,7 @@
         heroEl.innerHTML = phrase;
         maxH = Math.max(maxH, heroEl.offsetHeight);
       });
-      heroWrap.style.height = maxH + 'px';
+      heroWrap.style.height = (maxH + 4) + 'px';
       heroEl.innerHTML = heroPhrases[heroIdx];
       heroEl.style.visibility = '';
     }
@@ -1776,6 +1776,7 @@
     }
 
     lockWrapHeight();
+    document.fonts.ready.then(lockWrapHeight);
     window.addEventListener('resize', lockWrapHeight);
     setInterval(cycleHeroWord, 2200);
 
