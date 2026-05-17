@@ -880,6 +880,18 @@
       color: var(--white);
       transform: translateY(-2px);
     }
+    .form-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .form-status {
+      display: none;
+      margin-top: 20px;
+      font-family: 'Manrope', sans-serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.02em;
+    }
 
     /* ──────────────── FOOTER ──────────────── */
     footer {
@@ -1621,10 +1633,8 @@
       </div>
 
       <div class="contacto-form reveal-right">
-        <p class="contacto-info-label">✸ Mandanos un mensaje</p>
-        <form id="contacto-form" method="POST" action="contacto.php" novalidate>
         <p class="contacto-info-label">✸ Animate a escribirnos</p>
-        <form onsubmit="return false;">
+        <form id="contacto-form" method="POST" action="contacto.php" novalidate>
           <div class="form-group">
             <label for="cf-nombre">Nombre</label>
             <input id="cf-nombre" name="nombre" type="text" placeholder="¿Cómo te llamás?" required maxlength="80">
@@ -1642,6 +1652,7 @@
             <input type="text" name="website" tabindex="-1" autocomplete="off">
           </div>
           <button type="submit" class="form-submit">Animate ✸</button>
+          <p id="cf-status" class="form-status" role="status" aria-live="polite"></p>
         </form>
         <script>
           (function(){
@@ -1666,6 +1677,8 @@
                   status.style.color = '#0a0';
                   form.reset();
                 } else {
+                  console.error('[contacto] respuesta del servidor:', data);
+                  if (data.smtp_log) console.error('[contacto] SMTP log:\n' + data.smtp_log);
                   status.textContent = data.error || 'No se pudo enviar. Probá de nuevo en un rato.';
                   status.style.color = '#c00';
                 }
